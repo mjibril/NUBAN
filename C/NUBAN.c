@@ -4,7 +4,7 @@
 
 bool Validate(char* accessCode, char* serialNo, int assumedCheckDigit)
 {
-	char joinedNumber[12] = "";
+	char joinedNumber[15] = "";
 	strcat(joinedNumber, accessCode);
 	strcat(joinedNumber, serialNo);
 
@@ -15,7 +15,9 @@ bool Validate(char* accessCode, char* serialNo, int assumedCheckDigit)
 		(((joinedNumber[6]) - '0') * 3) + (((joinedNumber[8]) - '0') * 3) + 
 		(((joinedNumber[9]) - '0') * 3) + (((joinedNumber[11]) - '0') * 3) +
 		(((joinedNumber[1]) - '0') * 7) + (((joinedNumber[4]) - '0') * 7) + 
-		(((joinedNumber[7]) - '0') * 7) + (((joinedNumber[10]) - '0') * 7);
+		(((joinedNumber[7]) - '0') * 7) + (((joinedNumber[10]) - '0') * 7)+
+	        (((joinedNumber[12]) - '0') * 3) + (((joinedNumber[13]) - '0') * 7)+
+	        (((joinedNumber[14]) - '0') * 3) ;
 	
 	//did this to reduce exectution time
 	value = 10 - (value % 10);
@@ -28,14 +30,14 @@ bool Validate(char* accessCode, char* serialNo, int assumedCheckDigit)
 int main()
 {
 	//variable declaration
-	char accessCode[4];
+	char accessCode[7];
 	char serialNo[10];
 	int checkDigit;
 
 
 	//collect input from user
 	printf("Enter the Bank Access Code\n");
-	scanf("%3s", accessCode);
+	scanf("%6s", accessCode);
 
 	printf("Enter the NUBAN Serial number\n");
 	scanf("%9s", serialNo);

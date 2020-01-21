@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int algo[12] = {3, 7, 3, 3, 7, 3, 3, 7, 3, 3, 7, 3};
+int algo[15] = {3,7,3,3, 7, 3, 3, 7, 3, 3, 7, 3, 3, 7, 3};
 map<string, string> banks = {
     {"044", "Access Bank"},
     {"014", "Afribank"},
@@ -42,9 +42,26 @@ getInput()
   return make_tuple(bankCode, accountNumber);
 }
 
+string padBankCode(string bankCode)
+{
+    string pad;
+    if(bankCode.size() < 6)
+    {
+      for(int i=0;i<6-bankCode.size();i++)
+	{
+	  pad.push_back('0');
+	}
+	
+	return pad+bankCode;
+    }
+    return bankCode;
+
+	
+  }
+
 bool validateNubanAccount(string bankCode, string accountNumber)
 {
-  if (bankCode.size() != 3 || accountNumber.size() != 10)
+  if (bankCode.size() > 6 || accountNumber.size() != 10)
     return false;
 
   char checkDigit = accountNumber.back() - '0';

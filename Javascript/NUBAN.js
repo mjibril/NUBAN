@@ -2,17 +2,31 @@ function NUBAN (bankCode, accountNumber) {
     this.bankCode = bankCode;
     this.accountNumber = accountNumber;
 }
-
+function padBankCode(bankCode)
+{
+    var pad="";
+    if(bankCode.length < 6)
+    {
+	for(var i=0;i<6-bankCode.length;i++)
+	{
+	    pad=pad+"0";
+	}
+	return pad+bankCode;
+    }
+    return bankCode;
+}
 NUBAN.prototype.validate = function() {
 
     if(typeof this.bankCode !== 'string' || typeof this.accountNumber !== 'string')
         throw new Error('bankCode and accountNumber must be strings');
     
-    if(this.bankCode.length !== 3 && this.accountNumber.length !== 10)
+    if(this.bankCode.length > 6 && this.accountNumber.length !== 10)
         throw new Error('Invalid bankCode and accountNumber');
-
+    
+    this.bankCode= padBankCode(bankCode);
+    
     var checkDigit = this.accountNumber.charAt(9);
-    var dictionary = [3, 7, 3, 3, 7, 3, 3, 7, 3, 3, 7, 3];
+    var dictionary = [3,7,3,3, 7, 3, 3, 7, 3, 3, 7, 3, 3, 7, 3];
     var accountSerialNo = this.accountNumber.substring(0, 9);
     var nubanAccountFormat = this.bankCode + accountSerialNo;
 

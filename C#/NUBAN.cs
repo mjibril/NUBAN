@@ -17,15 +17,31 @@ namespace NUBAN_Validator
 
             Console.WriteLine($"The account number is {response}");
         }
+	static string padBankCode(string bankCode)
+         {	 
+	     string pad="";
+	     if(bankCode.Length < 6)
+	     {
+	     	for(int i=0;i<6-bankCode.Length;i++)
+  		{
+			    pad=pad+'0';
+	        }
+		return pad+bankCode;
+             }
+            return bankCode;
+
+	
+  	}	
 
         public static bool ValidateNubanAccount(string bankCode, string accountNumber)
         {
             var result = false;
             try
             {
-                if (bankCode.Trim().Length == 3 && accountNumber.Trim().Length == 10)
+                if (bankCode.Trim().Length <= 6  && accountNumber.Trim().Length == 10)
                 {
-                    var nuban = bankCode + accountNumber.Remove(9, 1);
+			
+                    var nuban = padBankCode(bankCode.Trim()) + accountNumber.Trim().Remove(9, 1);
                     var checkDigit = Convert.ToInt32(accountNumber.Substring(9, 1));
                     var nubanArray = new int[nuban.Length];
                     for (int i = 0; i < nuban.Length; i++)
@@ -34,7 +50,8 @@ namespace NUBAN_Validator
                     }
                     var nubanSum = (nubanArray[0] * 3) + (nubanArray[1] * 7) + (nubanArray[2] * 3) + (nubanArray[3] * 3) +
                                    (nubanArray[4] * 7) + (nubanArray[5] * 3) + (nubanArray[6] * 3) + (nubanArray[7] * 7) +
-                                   (nubanArray[8] * 3) + (nubanArray[9] * 3) + (nubanArray[10] * 7) + (nubanArray[11] * 3);
+                                   (nubanArray[8] * 3) + (nubanArray[9] * 3) + (nubanArray[10] * 7) + (nubanArray[11] * 3) +
+(nubanArray[12] * 3) + (nubanArray[13] * 7)  + (nubanArray[14] * 3);
                     var calCheckDigit = 10 - (nubanSum % 10);
                     calCheckDigit = calCheckDigit != 10 ? calCheckDigit : 0;
                     result = (checkDigit == calCheckDigit);
